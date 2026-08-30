@@ -1,6 +1,7 @@
 {
     "files.exclude": {
         ".msys2": true,
+        ".pybind11": true,
         ".vscode": true
     }
 }
