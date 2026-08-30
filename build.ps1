@@ -37,12 +37,11 @@ Pop-Location
 
 #==================================================================
 
+$py = "$python314\python.exe"
 
 & $py -m pip pybind11-stubgen
+& $py "$PSScriptRoot\gen_pyi.py" $Dst
 
-& $py -m pybind11_stubgen `
-    [System.IO.Path]::GetFileNameWithoutExtension($Dst) `
-    --output-dir [System.IO.Path]::GetDirectoryName($Dst)
 
 #==================================================================
 
