@@ -17,7 +17,7 @@ $Include += @(
 )
 
 & .\g++.exe -v `
-    -O3 -shared -std=c++17 -fPIC `
+    -O3 -shared -std=c++17 -fPIC -static `
     @($Include | ForEach-Object { "-I'$_'" }) `
     $Src `
     -o $Dst `
