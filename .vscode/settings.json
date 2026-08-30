@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        ".msys2": true,
+        ".vscode": true
+    }
+}
