@@ -10,3 +10,9 @@
 	branch = stable
     ignore = all
 
+[submodule ".python314"]
+	path = .python314
+	url = https://github.com/MineFartsEmbed/Python
+	branch = 3.14.5
+    ignore = all
+
