@@ -67,7 +67,7 @@ Pop-Location
 
 $py = "$Python\python.exe"
 
-& $py -m pip pybind11-stubgen
+& $py -m pip install pybind11-stubgen
 Test-Crash
 
 & $py "$PSScriptRoot\gen_pyi.py" $Dst
