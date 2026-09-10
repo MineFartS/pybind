@@ -59,6 +59,8 @@ $Include += @(
     -lsetupapi `
     -lcfgmgr32
 
+Test-Crash
+
 Pop-Location
 
 #==================================================================
@@ -66,8 +68,10 @@ Pop-Location
 $py = "$Python\python.exe"
 
 & $py -m pip pybind11-stubgen
-& $py "$PSScriptRoot\gen_pyi.py" $Dst
+Test-Crash
 
+& $py "$PSScriptRoot\gen_pyi.py" $Dst
+Test-Crash
 
 #==================================================================
 
