@@ -1,24 +1,50 @@
 param(
     [String] $Src,
     [String] $Dst,
-    [String[]] $Include
+    [String[]] $Include,
+    [String] $Python = $null
 )
+
+#==================================================================
+
+function Test-Crash {
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Subprocess failed with exit code $LASTEXITCODE"
+        exit $LASTEXITCODE
+    }
+}
+
+function Update-Submodule([String]$Name) {
+    git.exe -C $PSScriptRoot `
+        submodule update `
+        --init `
+        --recursive `
+        --remote `
+        --force `
+        $Name
+}
+
+#==================================================================
 
 $Src = [System.IO.Path]::GetFullPath($Src)
 $Dst = [System.IO.Path]::GetFullPath($Dst)
 
 #==================================================================
 
-git.exe -C $PSScriptRoot submodule update --init --recursive --remote
+Update-Submodule '.msys2'
+Update-Submodule '.pybind11'
+
+if ($null -eq $Python) {
+    $Python = "$PSScriptRoot\.python314"
+    Update-Submodule '.python314'
+}
 
 #==================================================================
 
 Push-Location "$PSScriptRoot\.msys2\ucrt64\bin"
 
-$python314 = "$PSScriptRoot\.python314"
-
 $Include += @(
-    "$python314\include"
+    "$Python\include"
     "$PSScriptRoot\.pybind11\include"
     [System.IO.Path]::GetDirectoryName($Src)
 )
@@ -28,7 +54,7 @@ $Include += @(
     @($Include | ForEach-Object { "-I$_" }) `
     $Src `
     -o $Dst `
-    -L"$python314\libs" `
+    -L"$Python\libs" `
     -lpython314 `
     -lsetupapi `
     -lcfgmgr32
@@ -37,7 +63,7 @@ Pop-Location
 
 #==================================================================
 
-$py = "$python314\python.exe"
+$py = "$Python\python.exe"
 
 & $py -m pip pybind11-stubgen
 & $py "$PSScriptRoot\gen_pyi.py" $Dst
