@@ -16,7 +16,7 @@
 	branch = 3.14.5
     ignore = all
 
-[submodule "pybind11-stubgen"]
+[submodule ".stubgen"]
 	path = .stubgen
 	url = https://github.com/pybind/pybind11-stubgen/
     ignore = all
