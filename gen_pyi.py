@@ -2,9 +2,13 @@ from contextlib import contextmanager
 import importlib.util as iutil
 from sys import argv, modules
 from pathlib import Path
+import sys
 
 _this = Path(__file__).parent.resolve()
 _pyd = Path(argv[1]).resolve()
+
+sys.path.insert(0, _pyd.parent.as_posix())
+sys.path.insert(0, _this.as_posix())
 
 @contextmanager
 def imp_module(_name:str, _path:Path):
