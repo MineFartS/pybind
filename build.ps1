@@ -33,6 +33,7 @@ $Dst = [System.IO.Path]::GetFullPath($Dst)
 
 Update-Submodule '.msys2'
 Update-Submodule '.pybind11'
+Update-Submodule '.stubgen'
 
 if ($null -eq $Python) {
     $Python = "$PSScriptRoot\.python314"
@@ -65,12 +66,7 @@ Pop-Location
 
 #==================================================================
 
-$py = "$Python\python.exe"
-
-& $py -m pip install pybind11-stubgen
-Test-Crash
-
-& $py "$PSScriptRoot\gen_pyi.py" $Dst
+& "$Python\python.exe" "$PSScriptRoot\gen_pyi.py" $Dst
 Test-Crash
 
 #==================================================================
